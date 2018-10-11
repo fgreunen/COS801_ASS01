@@ -1,0 +1,15 @@
+https://github.com/fgreunen/COS801_ASS01.git
+http://www.cs.utoronto.ca/~kriz/cifar.html
+http://yann.lecun.com/exdb/mnist/
+http://deeplearning.net/datasets/
+https://www.tensorflow.org/api_docs/python/tf/keras/datasets
+https://github.com/aymericdamien/TensorFlow-Examples
+https://www.kaggle.com/gpreda/cnn-with-tensorflow-keras-for-fashion-mnist
+
+https://github.com/zalandoresearch/fashion-mnist/blob/master/utils/mnist_reader.py
+https://pravarmahajan.github.io/fashion/
+
+wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz
+wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz
+wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz
+wget http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz

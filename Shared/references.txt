@@ -1,0 +1,7 @@
+
+WEIGHT INITIALIZATION:
+http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
+Glorot, X. and Bengio, Y., 2010, March. Understanding the difficulty of training deep feedforward neural networks. In Proceedings of the thirteenth international conference on artificial intelligence and statistics (pp. 249-256).
+
+
+http://www.awebb.info/blog/cross_entropy
