@@ -3,15 +3,14 @@ import keras
 from keras.models import load_model
 from keras.models import Sequential
 from keras.layers import Dense, Flatten
-from keras.layers import Conv2D, Conv3D, MaxPooling2D, MaxPooling3D, Dropout
+from keras.layers import Conv2D, MaxPooling2D, Dropout
 import types
 from keras.layers.normalization import BatchNormalization
 from keras import regularizers
 from keras import optimizers
-import gc
 
 class CNN:
-    epochs = 35
+    epochs = 25
     batchSize = 50
     _dir = 'RunData'
     def __init__(self, identifier):
@@ -113,9 +112,9 @@ class CNN:
         testAccuracy = model.evaluate(data.test.images, data.test.labels)
         model.save(self._getModelUrl())
         Utils.ResultsManager().save(self._getModelFitUrl(), modelFit)
-        Utils.ResultsManager().save(self._getConfigurationUrl(), configuration)
         Utils.ResultsManager().save(self._getTestAccuracyUrl(), testAccuracy)
-        return modelFit, testAccuracy
+#        Utils.ResultsManager().save(self._getConfigurationUrl(), configuration)
+        return 
     
     def model(self):
         return load_model(self._getModelUrl())
@@ -139,19 +138,14 @@ data.validation.images = data.validation.images.reshape(data.validation.images.s
 data.test.images = data.test.images.reshape(data.test.images.shape[0], shape[0], shape[1], shape[2])
 cnn = CNN('CNN_MNIST')
 cnn.train(data, shape)
-gc.collect()
 cnn = CNN('CNN_MNIST_L1')
 cnn.train(data, shape, True, False, False, False)
-gc.collect()
 cnn = CNN('CNN_MNIST_L2')
 cnn.train(data, shape, False, True, False, False)
-gc.collect()
 cnn = CNN('CNN_MNIST_D')
 cnn.train(data, shape, False, False, True, False)
-gc.collect()
 cnn = CNN('CNN_MNIST_B')
 cnn.train(data, shape, False, False, False, True)
-gc.collect()
 
 '''FMNIST'''
 print('')
