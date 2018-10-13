@@ -27,12 +27,12 @@ class CNN:
         return self.identifier + "/testAccuracy.json" 
     
     def train(self, data, shape, applyL1 = False, applyL2 = False, applyDropout = False, applyBatch = False):
-        dropoutRate = 0.3
-        regularizerRate = 0.01
+        dropoutRate = 0.1
+        regularizerRate = 0.005
         
         configuration = types.SimpleNamespace()
         configuration.activation = 'relu'
-        configuration.optimizer = optimizers.SGD(lr=0.1)
+        configuration.optimizer = 'adam' #optimizers.SGD(lr=0.25)
         configuration.trainSize = data.train.num_examples
         configuration.validationSize = data.validation.num_examples
         configuration.classes = data.train.labels.shape[1]
@@ -94,10 +94,6 @@ class CNN:
         if applyDropout:
             model.add(Dropout(dropoutRate))
         model.add(Dense(configuration.classes, activation='softmax', kernel_regularizer=regularizer, kernel_initializer=kernel_initializer))
-        if applyBatch:
-            model.add(BatchNormalization())
-        if applyDropout:
-            model.add(Dropout(dropoutRate))
         
         model.compile(loss=keras.losses.categorical_crossentropy,
                       optimizer=configuration.optimizer,
@@ -127,44 +123,6 @@ class CNN:
     
     def getTestAccuracy(self):
         return Utils.ResultsManager().load(self._getTestAccuracyUrl())
-
-'''MNIST'''
-print('')
-print('Running MNIST')    
-data = MNIST.DataProvider().get()
-shape = (28, 28, 1)
-data.train.images = data.train.images.reshape(data.train.images.shape[0], shape[0], shape[1], shape[2])
-data.validation.images = data.validation.images.reshape(data.validation.images.shape[0], shape[0], shape[1], shape[2])
-data.test.images = data.test.images.reshape(data.test.images.shape[0], shape[0], shape[1], shape[2])
-cnn = CNN('CNN_MNIST')
-cnn.train(data, shape)
-cnn = CNN('CNN_MNIST_L1')
-cnn.train(data, shape, True, False, False, False)
-cnn = CNN('CNN_MNIST_L2')
-cnn.train(data, shape, False, True, False, False)
-cnn = CNN('CNN_MNIST_D')
-cnn.train(data, shape, False, False, True, False)
-cnn = CNN('CNN_MNIST_B')
-cnn.train(data, shape, False, False, False, True)
-
-'''FMNIST'''
-print('')
-print('Running FMNIST')    
-data = FMNIST.DataProvider().get()
-shape = (28, 28, 1)
-data.train.images = data.train.images.reshape(data.train.images.shape[0], shape[0], shape[1], shape[2])
-data.validation.images = data.validation.images.reshape(data.validation.images.shape[0], shape[0], shape[1], shape[2])
-data.test.images = data.test.images.reshape(data.test.images.shape[0], shape[0], shape[1], shape[2])
-cnn = CNN('CNN_FMNIST')
-cnn.train(data, shape)
-cnn = CNN('CNN_FMNIST_L1')
-cnn.train(data, shape, True, False, False, False)
-cnn = CNN('CNN_FMNIST_L2')
-cnn.train(data, shape, False, True, False, False)
-cnn = CNN('CNN_FMNIST_D')
-cnn.train(data, shape, False, False, True, False)
-cnn = CNN('CNN_FMNIST_B')
-cnn.train(data, shape, False, False, False, True)
 
 '''CIFAR10'''
 print('')
@@ -204,3 +162,40 @@ cnn.train(data, shape, False, False, True, False)
 cnn = CNN('CNN_CIFAR100_B')
 cnn.train(data, shape, False, False, False, True)
 
+'''MNIST'''
+print('')
+print('Running MNIST')    
+data = MNIST.DataProvider().get()
+shape = (28, 28, 1)
+data.train.images = data.train.images.reshape(data.train.images.shape[0], shape[0], shape[1], shape[2])
+data.validation.images = data.validation.images.reshape(data.validation.images.shape[0], shape[0], shape[1], shape[2])
+data.test.images = data.test.images.reshape(data.test.images.shape[0], shape[0], shape[1], shape[2])
+cnn = CNN('CNN_MNIST')
+cnn.train(data, shape)
+cnn = CNN('CNN_MNIST_L1')
+cnn.train(data, shape, True, False, False, False)
+cnn = CNN('CNN_MNIST_L2')
+cnn.train(data, shape, False, True, False, False)
+cnn = CNN('CNN_MNIST_D')
+cnn.train(data, shape, False, False, True, False)
+cnn = CNN('CNN_MNIST_B')
+cnn.train(data, shape, False, False, False, True)
+
+'''FMNIST'''
+print('')
+print('Running FMNIST')    
+data = FMNIST.DataProvider().get()
+shape = (28, 28, 1)
+data.train.images = data.train.images.reshape(data.train.images.shape[0], shape[0], shape[1], shape[2])
+data.validation.images = data.validation.images.reshape(data.validation.images.shape[0], shape[0], shape[1], shape[2])
+data.test.images = data.test.images.reshape(data.test.images.shape[0], shape[0], shape[1], shape[2])
+cnn = CNN('CNN_FMNIST')
+cnn.train(data, shape)
+cnn = CNN('CNN_FMNIST_L1')
+cnn.train(data, shape, True, False, False, False)
+cnn = CNN('CNN_FMNIST_L2')
+cnn.train(data, shape, False, True, False, False)
+cnn = CNN('CNN_FMNIST_D')
+cnn.train(data, shape, False, False, True, False)
+cnn = CNN('CNN_FMNIST_B')
+cnn.train(data, shape, False, False, False, True)
