@@ -4,6 +4,8 @@ from keras.models import Model
 from keras.models import load_model
 from keras import Sequential
 import types
+import pandas as pd
+import matplotlib.pyplot as plt
 
 class AutoEncoder:
     epochs = 200
@@ -135,6 +137,40 @@ class AutoEncoder:
             ax.get_yaxis().set_visible(False)
         plt.show()
 
+def plotModelFit(modelFit):
+    df = pd.DataFrame({
+        'Training Loss':modelFit.history['loss'],
+        'Validation Loss':modelFit.history['val_loss']
+        },index=range(len(modelFit.history['val_loss'])))
+    
+    plt.style.use('seaborn-darkgrid')
+    plt.plot(df.index, df['Training Loss'], marker='', color='#770000', label='Training')
+    plt.plot(df.index, df['Validation Loss'], marker='', color='#444444', label='Validation')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss (Binary Cross Entropy)')
+    plt.legend(loc='upper right')
+    plt.show()
+    
+    lookback = 50
+    plt.plot(df.index, df['Training Loss'], marker='', color='#770000', label='Training')
+    plt.plot(df.index, df['Validation Loss'], marker='', color='#444444', label='Validation')
+    plt.xlim(len(df) - lookback, len(df))
+    plt.ylim(df.tail(lookback).values.min(), df.tail(lookback).values.max())
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss (Binary Cross Entropy)')
+    plt.legend(loc='upper right')
+    plt.show()
+    
+    lookback = 50
+    plt.plot(df.index, df['Training Loss'], marker='', color='#770000', label='Training')
+    plt.plot(df.index, df['Validation Loss'], marker='', color='#444444', label='Validation')
+    plt.xlim(0, lookback)
+    plt.ylim(df.head(lookback).values.min(), df.head(lookback).values.max())
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss (Binary Cross Entropy)')
+    plt.legend(loc='upper right')
+    plt.show()
+
 def main(): 
     '''MNIST'''
     print('')
@@ -143,6 +179,8 @@ def main():
     ae = AutoEncoder('AE_MNIST')
     ae.train(data)
     ae.display(data, 28, 28, 1)
+    modelFit = ae.getModelFit()
+    plotModelFit(modelFit)
     
     '''FMNIST'''
     print('')
@@ -151,6 +189,8 @@ def main():
     ae = AutoEncoder('AE_FMNIST')
     ae.train(data)
     ae.display(data, 28, 28, 1)
+    modelFit = ae.getModelFit()
+    plotModelFit(modelFit)
     
     '''CIFAR10'''
     print('')
@@ -159,6 +199,8 @@ def main():
     ae = AutoEncoder('AE_CIFAR10')
     ae.train(data)
     ae.display(data, 32, 32, 3)
+    modelFit = ae.getModelFit()
+    plotModelFit(modelFit)
     
     '''CIFAR100'''
     print('')
@@ -167,6 +209,8 @@ def main():
     ae = AutoEncoder('AE_CIFAR100')
     ae.train(data)
     ae.display(data, 32, 32, 3)
-
+    modelFit = ae.getModelFit()
+    plotModelFit(modelFit)
+    
 if __name__ == '__main__':
     main()

@@ -12,14 +12,14 @@ print("python {}".format(sys.version))
 print("tensorflow version {}".format(tf.__version__))
 
 configuration = types.SimpleNamespace()
-configuration.stoppingThresholdWindowSize = 60
+configuration.stoppingThresholdWindowSize = 20
 configuration.batchSize = 50
 configuration.trainingBatchesPerValidationBatch = 250
 configuration.maxNumberOfTrainingSteps = 100000
 configuration.learningRateDecay = 0.65
 
-configuration.numberOfLearningRates = 5
-configuration.learningRateInitial = 1
+configuration.numberOfLearningRates = 2
+configuration.learningRateInitial = 0.3
 configuration.learningRates = []
 current = configuration.learningRateInitial
 for i in range(configuration.numberOfLearningRates):

@@ -27,12 +27,12 @@ class CNN:
         return self.identifier + "/testAccuracy.json" 
     
     def train(self, data, shape, applyL1 = False, applyL2 = False, applyDropout = False, applyBatch = False):
-        dropoutRate = 0.3
+        dropoutRate = 0.1
         regularizerRate = 0.01
-        
+        print(applyDropout)
         configuration = types.SimpleNamespace()
         configuration.activation = 'relu'
-        configuration.optimizer = optimizers.SGD(lr=0.1)
+        configuration.optimizer = 'adam' #optimizers.SGD(lr=0.1)
         configuration.trainSize = data.train.num_examples
         configuration.validationSize = data.validation.num_examples
         configuration.classes = data.train.labels.shape[1]
@@ -94,10 +94,6 @@ class CNN:
         if applyDropout:
             model.add(Dropout(dropoutRate))
         model.add(Dense(configuration.classes, activation='softmax', kernel_regularizer=regularizer, kernel_initializer=kernel_initializer))
-        if applyBatch:
-            model.add(BatchNormalization())
-        if applyDropout:
-            model.add(Dropout(dropoutRate))
         
         model.compile(loss=keras.losses.categorical_crossentropy,
                       optimizer=configuration.optimizer,
