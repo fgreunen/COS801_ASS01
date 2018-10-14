@@ -22,3 +22,5 @@ Data/MNIST/train-labels-idx1-ubyte\.gz
 __pycache__/
 
 RunData/
+
+RunData\.zip
